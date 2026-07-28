@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mighty Billing — Credits (V6)</title>
+<title>Mighty Billing — Credits (V8)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -1034,37 +1034,84 @@ a { color: inherit; }
     function renderChart() {
       const data = genSeries(currentCat, currentGran);
       const n = data.length;
-      const W = 900, H = 320, padL = 40, padR = 8, padT = 12, padB = 26;
+      const W = 900, H = 300, padL = 40, padR = 12, padT = 12, padB = 26;
       const plotW = W - padL - padR, plotH = H - padT - padB;
       const rawMax = Math.max(...data.flatMap((d) => [d.current, d.previous]), 1);
       const maxY = Math.ceil(rawMax / 200) * 200;
-      const bw = Math.max((plotW / n) * 0.5, 3);
       const yTicks = []; for (let t = 0; t <= maxY; t += 200) yTicks.push(t);
+      const baseline = padT + plotH;
       const y = (v) => padT + plotH - (Math.min(v, maxY) / maxY) * plotH;
-
-      let grid = yTicks.map((t) => `<line x1="${padL}" y1="${y(t)}" x2="${W - padR}" y2="${y(t)}" stroke="#eee"/><text x="${padL - 8}" y="${y(t) + 4}" text-anchor="end" font-size="11" fill="#9a9a9a">${t}</text>`).join('');
-
-      const labelStep = gran_labelStep(currentGran, n);
+      const x = (i) => padL + plotW * (i + 0.5) / n;          // slot center
+      const sx0 = (i) => padL + plotW * i / n;                 // slot left
+      const sx1 = (i) => padL + plotW * (i + 1) / n;           // slot right
       const curColor = CAT_COLOR[currentCat] || '#171717';
-      let bars = '', xl = '', hits = '';
+
+      // Dashed gridlines (horizontal ticks + vertical at slot boundaries)
+      let grid = yTicks.map((t) => `<line x1="${padL}" y1="${y(t)}" x2="${W - padR}" y2="${y(t)}" stroke="#e4e4e4" stroke-dasharray="4 4"/><text x="${padL - 8}" y="${y(t) + 4}" text-anchor="end" font-size="11" fill="#9a9a9a">${t}</text>`).join('');
+      const labelStep = gran_labelStep(currentGran, n);
+      for (let i = 0; i <= n; i += labelStep) grid += `<line x1="${sx0(i)}" y1="${padT}" x2="${sx0(i)}" y2="${baseline}" stroke="#efefef" stroke-dasharray="4 4"/>`;
+
+      // Stepped area fill (current period) with a soft vertical gradient
+      let area = `M ${sx0(0)} ${baseline}`;
+      data.forEach((d, i) => { area += ` L ${sx0(i)} ${y(d.current)} L ${sx1(i)} ${y(d.current)}`; });
+      area += ` L ${sx1(n - 1)} ${baseline} Z`;
+
+      // Light staircase outline (soft risers) for the current series
+      let outline = `M ${sx0(0)} ${y(data[0].current)}`;
+      data.forEach((d, i) => { outline += ` L ${sx0(i)} ${y(d.current)} L ${sx1(i)} ${y(d.current)}`; });
+
+      // Bold flat tops for the current series
+      let tops = '';
+      data.forEach((d, i) => { tops += `<line x1="${sx0(i)}" y1="${y(d.current)}" x2="${sx1(i)}" y2="${y(d.current)}" stroke="${curColor}" stroke-width="3" stroke-linecap="round"/>`; });
+
+      // Previous period as a gray stepped outline with its own flat tops
+      let prevOutline = `M ${sx0(0)} ${y(data[0].previous)}`;
+      data.forEach((d, i) => { prevOutline += ` L ${sx0(i)} ${y(d.previous)} L ${sx1(i)} ${y(d.previous)}`; });
+      let prevTops = '';
+      data.forEach((d, i) => { prevTops += `<line x1="${sx0(i)}" y1="${y(d.previous)}" x2="${sx1(i)}" y2="${y(d.previous)}" stroke="#bdbdbd" stroke-width="3" stroke-linecap="round"/>`; });
+
+      const defs = `<defs><linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="${curColor}" stop-opacity="0.20"/>
+        <stop offset="1" stop-color="${curColor}" stop-opacity="0"/>
+      </linearGradient></defs>`;
+      const series =
+        `<path d="${area}" fill="url(#areaGrad)" stroke="none"/>` +
+        `<path d="${prevOutline}" fill="none" stroke="#e0e0e0" stroke-width="1"/>` +
+        prevTops +
+        `<path d="${outline}" fill="none" stroke="#dcdcdc" stroke-width="1"/>` +
+        tops;
+
+      let xl = '', hits = '';
       data.forEach((d, i) => {
-        const cxb = padL + plotW * (i + 0.5) / n;
-        const x = cxb - bw / 2;
-        bars += `<rect x="${x}" y="${y(d.previous)}" width="${bw}" height="${padT + plotH - y(d.previous)}" rx="2" fill="#d4d4d4"/>`;
-        bars += `<rect x="${x}" y="${y(d.current)}" width="${bw}" height="${padT + plotH - y(d.current)}" rx="2" fill="${curColor}"/>`;
-        hits += `<rect class="chart-hit" x="${padL + plotW * i / n}" y="${padT}" width="${plotW / n}" height="${plotH}" fill="transparent" data-label="${d.label}" data-cur="${d.current}" data-prev="${d.previous}"/>`;
-        if (i % labelStep === 0) xl += `<text x="${cxb}" y="${H - 8}" text-anchor="middle" font-size="11" fill="#9a9a9a">${d.label}</text>`;
+        if (i % labelStep === 0) xl += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="#9a9a9a">${d.label}</text>`;
+        hits += `<rect class="chart-hit" x="${sx0(i)}" y="${padT}" width="${plotW / n}" height="${plotH}" fill="transparent" data-label="${d.label}" data-cur="${d.current}" data-prev="${d.previous}" data-cx="${x(i)}" data-ycur="${y(d.current)}" data-yprev="${y(d.previous)}"/>`;
       });
-      document.getElementById('chartArea').innerHTML = `<svg viewBox="0 0 ${W} ${H}">${grid}${bars}${xl}${hits}</svg>`;
+
+      const cursor = `<g id="chartCursor" style="opacity:0">
+        <line id="curLine" y1="${padT}" y2="${baseline}" stroke="#c4c4c4" stroke-width="1" stroke-dasharray="3 3"/>
+        <circle id="curDotPrev" r="4" fill="#d4d4d4"/>
+        <circle id="curDotCur" r="4.5" fill="${curColor}" stroke="#fff" stroke-width="2"/>
+      </g>`;
+
+      document.getElementById('chartArea').innerHTML = `<svg viewBox="0 0 ${W} ${H}">${defs}${grid}${series}${xl}${cursor}${hits}</svg>`;
       document.getElementById('lgCur').style.background = curColor;
 
+      const cur = document.getElementById('chartCursor');
+      const cl = document.getElementById('curLine');
+      const dc = document.getElementById('curDotCur');
+      const dp = document.getElementById('curDotPrev');
       document.querySelectorAll('#chartArea .chart-hit').forEach((h) => {
         h.addEventListener('mouseenter', () => {
+          const cx = +h.dataset.cx;
+          cl.setAttribute('x1', cx); cl.setAttribute('x2', cx);
+          dc.setAttribute('cx', cx); dc.setAttribute('cy', +h.dataset.ycur);
+          dp.setAttribute('cx', cx); dp.setAttribute('cy', +h.dataset.yprev);
+          cur.style.opacity = '1';
           tooltip.innerHTML = `<div class="tt-h">${h.dataset.label}</div><div class="tt-r"><span class="tt-sw" style="background:${curColor}"></span>Current: ${formatCredits(+h.dataset.cur)}</div><div class="tt-r"><span class="tt-sw" style="background:#d4d4d4"></span>Previous: ${formatCredits(+h.dataset.prev)}</div>`;
           tooltip.classList.add('visible');
         });
         h.addEventListener('mousemove', (e) => { tooltip.style.left = e.clientX + 'px'; tooltip.style.top = (e.clientY - 12) + 'px'; });
-        h.addEventListener('mouseleave', () => tooltip.classList.remove('visible'));
+        h.addEventListener('mouseleave', () => { cur.style.opacity = '0'; tooltip.classList.remove('visible'); });
       });
     }
     function gran_labelStep(gran, n) { if (gran === 'week') return 1; if (gran === 'day') return 3; return 1; }
