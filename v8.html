@@ -1175,7 +1175,7 @@ a { color: inherit; }
       const xRemain = Math.max(xTotal - xSpent, 0);
 
       el('creditsHeading').textContent = current.heading;
-      el('donutUsed').textContent = formatCredits(mSpent);
+      el('donutUsed').textContent = formatCredits(mSpent + xSpent);
       el('monthlyAllowance').textContent = formatCredits(mTotal) + '/month';
       el('monthlySpentNum').textContent = formatCredits(mSpent);
       el('monthlyRemainNum').textContent = formatCredits(mRemain);
