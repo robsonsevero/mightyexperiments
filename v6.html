@@ -109,9 +109,11 @@ a { color: inherit; }
 .content-header h1 { max-width: 748px; width: 100%; margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -0.01em; }
 
 #view-purchase .content-header,
-#view-processing .content-header { justify-content: flex-start; padding-left: 48px; }
+#view-processing .content-header,
+#view-history .content-header { justify-content: flex-start; padding-left: 48px; }
 #view-purchase .content-header h1,
-#view-processing .content-header h1 { max-width: none; width: auto; }
+#view-processing .content-header h1,
+#view-history .content-header h1 { max-width: none; width: auto; }
 .purchase-header { flex-direction: column; align-items: flex-start; gap: 16px; padding-top: 24px !important; background: var(--color-surface-secondary); border-bottom: 1px solid var(--color-border); }
 #view-processing .content-header { background: var(--color-surface-secondary); border-bottom: 1px solid var(--color-border); }
 .back-btn { width: 32px; height: 32px; border-radius: var(--radius-medium); border: none; background: transparent; display: flex; align-items: center; justify-content: center; color: var(--color-text-primary); cursor: pointer; margin-left: -6px; }
@@ -393,7 +395,8 @@ a { color: inherit; }
 .hist-seg { height: 100%; }
 
 .hist-list { flex: 1; overflow-y: auto; padding: 0 32px; }
-.hist-day { font-size: 16px; font-weight: 600; color: var(--color-text-secondary); margin: 24px 0 0; }
+.hist-day { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: 16px; font-weight: 600; color: var(--color-text-secondary); margin: 24px 0 0; }
+.hist-day-total { font-size: 13px; font-weight: 500; color: var(--color-text-tertiary); }
 .hist-day:first-child { margin-top: 4px; }
 .hist-row { display: flex; align-items: center; gap: 12px; padding: 16px 2px; border-bottom: 1px solid var(--color-border); }
 .hist-day + .hist-row { border-top: 1px solid var(--color-border); }
@@ -410,10 +413,26 @@ a { color: inherit; }
 .hist-export { border: none; background: transparent; font-size: 16px; font-weight: 700; color: var(--color-text-primary); cursor: pointer; padding: 4px; }
 .hist-export:hover { text-decoration: underline; }
 
+/* Usage history page */
+#view-history .content-header { align-items: center; padding-left: 24px; padding-right: 24px; }
+.hist-header-inner { width: 100%; max-width: 748px; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+.history-body { display: flex; flex-direction: column; align-items: center; padding: 24px 24px 80px; }
+.history-body > * { width: 100%; max-width: 748px; }
+.history-sub { font-size: 15px; color: var(--color-text-tertiary); margin: 0 0 20px; }
+.history-controls { display: flex; align-items: flex-end; gap: 12px; margin-bottom: 8px; }
+.hc-field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: var(--color-text-secondary); }
+.hc-field input { height: 40px; border: 1.5px solid var(--color-border); border-radius: 8px; padding: 0 12px; font-size: 14px; font-family: inherit; color: var(--color-text-primary); background: var(--color-surface); }
+.hc-field input:focus { outline: none; border-color: var(--color-border-active); }
+.hc-clear { height: 40px; border: 1px solid var(--color-border); background: transparent; border-radius: 8px; padding: 0 14px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--color-text-primary); }
+.hc-clear:hover { background: var(--color-surface-secondary); }
+#view-history .hist-list { flex: none; overflow: visible; padding: 0; }
+.hist-empty { padding: 40px 4px; text-align: center; color: var(--color-text-tertiary); font-size: 15px; }
+.history-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--color-border); }
+
 /* V5 stat cards */
-#view-credits .content-header h1 { max-width: 1040px; }
-.content-body--credits .card { max-width: 1040px; }
-.stat-cards { width: 100%; max-width: 1040px; display: flex; gap: 16px; }
+#view-credits .content-header h1 { max-width: 748px; }
+.content-body--credits .card { max-width: 748px; }
+.stat-cards { width: 100%; max-width: 748px; display: flex; gap: 16px; }
 .stat-card { flex: 1; min-width: 0; display: flex; flex-direction: column; border: 1px solid var(--color-border); border-radius: 16px; padding: 24px; }
 .stat-grow { flex: 1; min-height: 28px; }
 .stat-card-title { font-size: 16px; font-weight: 700; }
@@ -434,7 +453,7 @@ a { color: inherit; }
 .add-more-btn:hover { filter: brightness(1.4); }
 .auto-reload-inline { margin-top: 8px; display: inline-flex; align-items: center; gap: 8px; border: none; background: transparent; padding: 0; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--color-text-primary); text-decoration: underline; align-self: flex-start; }
 
-.alert-banner { width: 100%; max-width: 1040px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border: 1px solid var(--color-border); border-radius: 16px; padding: 18px 24px; }
+.alert-banner { width: 100%; max-width: 748px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border: 1px solid var(--color-border); border-radius: 16px; padding: 18px 24px; }
 .alert-banner[hidden] { display: none; }
 .alert-title { font-size: 16px; font-weight: 700; }
 .alert-text { font-size: 14px; color: var(--color-text-tertiary); margin-top: 2px; }
@@ -473,15 +492,15 @@ a { color: inherit; }
 .cf-fields { display: flex; flex-direction: column; gap: 16px; margin: 20px 0 24px; }
 
 /* V6 layout */
-.actions-row-v6 { width: 100%; max-width: 1040px; display: flex; gap: 8px; }
+.actions-row-v6 { width: 100%; max-width: 748px; display: flex; gap: 8px; }
 .btn-pill { border: none; background: var(--color-fill-secondary); color: var(--color-text-primary); font-size: 13px; font-weight: 700; padding: 10px 16px; border-radius: 8px; cursor: pointer; }
 .btn-pill:hover { filter: brightness(0.96); }
 .btn-pill--dark { background: #171717; color: #fff; }
 .btn-pill--dark:hover { filter: brightness(1.4); }
 
-.top-cards { width: 100%; max-width: 1040px; display: flex; gap: 16px; }
+.top-cards { width: 100%; max-width: 748px; display: flex; gap: 16px; }
 
-.donut-card { width: 100%; max-width: 1040px; display: flex; gap: 32px; align-items: stretch; }
+.donut-card { width: 100%; max-width: 748px; display: flex; gap: 32px; align-items: stretch; }
 .donut-left { flex: 0 0 300px; display: flex; flex-direction: column; }
 .donut-wrap { position: relative; width: 240px; height: 240px; margin: 20px auto auto; }
 .donut-svg, .donut-svg svg { width: 100%; height: 100%; display: block; }
@@ -663,38 +682,6 @@ a { color: inherit; }
               </div>
             </div>
 
-            <!-- Daily Breakdown: current vs previous period -->
-            <div class="card">
-              <div class="usage-head">
-                <span class="usage-title">Daily Breakdown</span>
-                <div class="usage-controls">
-                  <div class="dropdown" id="catDropdown">
-                    <button class="dropdown-btn" id="catBtn" aria-haspopup="listbox" aria-expanded="false">
-                      <span id="catLabel">All Categories</span>
-                      <svg class="dropdown-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </button>
-                    <ul class="dropdown-menu" id="catMenu" role="listbox">
-                      <li role="option" class="dropdown-item selected" data-cat="all">All Categories</li>
-                      <li role="option" class="dropdown-item" data-cat="cohost">Cohost</li>
-                      <li role="option" class="dropdown-item" data-cat="headless">Headless API</li>
-                      <li role="option" class="dropdown-item" data-cat="automations">Automations</li>
-                      <li role="option" class="dropdown-item" data-cat="mcp">MCP</li>
-                      <li role="option" class="dropdown-item" data-cat="adminapi">Admin API</li>
-                    </ul>
-                  </div>
-                  <div class="gran-toggle">
-                    <button class="gran-btn active" data-gran="month">Last 30 days</button>
-                    <button class="gran-btn" data-gran="week">Last 7 days</button>
-                    <button class="gran-btn" data-gran="day">Last 24 hours</button>
-                  </div>
-                </div>
-              </div>
-              <div class="chart-area" id="chartArea"></div>
-              <div class="chart-legend">
-                <span class="lg"><span class="lg-sw cur" id="lgCur"></span>Current Period</span>
-                <span class="lg"><span class="lg-sw prev"></span>Previous Period</span>
-              </div>
-            </div>
           </div>
         </section>
 
@@ -810,6 +797,31 @@ a { color: inherit; }
           </div>
         </section>
 
+        <!-- VIEW 4: Usage history -->
+        <section class="view" id="view-history">
+          <div class="content-header purchase-header">
+            <div class="hist-header-inner">
+              <button class="back-btn" id="historyBack" aria-label="Back">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12 4L6 10L12 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <h1>Credit usage history</h1>
+            </div>
+          </div>
+          <div class="history-body">
+            <p class="history-sub">Search your credit usage by feature over time. Filter to a specific day or a date range.</p>
+            <div class="history-controls">
+              <label class="hc-field"><span>From</span><input type="date" id="histFrom" min="2026-06-01" max="2026-07-28"></label>
+              <label class="hc-field"><span>To</span><input type="date" id="histTo" min="2026-06-01" max="2026-07-28"></label>
+              <button class="hc-clear" id="histClear">Clear</button>
+            </div>
+            <div class="hist-list" id="histList"></div>
+            <div class="history-foot">
+              <span class="hist-count" id="histCount">Showing 0 of 84 events</span>
+              <button class="hist-export">Export CSV</button>
+            </div>
+          </div>
+        </section>
+
       </main>
     </div>
   </div>
@@ -914,45 +926,6 @@ a { color: inherit; }
     </div>
   </div>
 
-  <!-- Credit usage history modal -->
-  <div class="modal-overlay" id="historyModal">
-    <div class="modal modal--history">
-      <button class="modal-close" id="histClose" aria-label="Close">
-        <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M1 1L15 15M15 1L1 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      </button>
-      <div class="hist-head">
-        <h2 class="modal-title">Monthly credit usage history</h2>
-        <p class="modal-sub">Lorem ipsum odor amet, consectetuer adipiscing elit. Volutpat egestas ac quisque risus ad primis elit per.</p>
-        <div class="hist-bar">
-          <span class="hist-seg" style="flex: 40 0 0; background: var(--seg-cohost)"></span>
-          <span class="hist-seg" style="flex: 18 0 0; background: var(--seg-headless)"></span>
-          <span class="hist-seg" style="flex: 30 0 0; background: var(--seg-automations)"></span>
-          <span class="hist-seg" style="flex: 7 0 0; background: var(--seg-mcp)"></span>
-          <span class="hist-seg" style="flex: 5 0 0; background: var(--seg-adminapi)"></span>
-        </div>
-      </div>
-
-      <div class="hist-list">
-        <div class="hist-day">Today</div>
-        <div class="hist-row"><span class="hist-sq" style="background: var(--seg-cohost)"></span><span class="hist-name">Cohost</span><span class="hist-pct">25%</span><span class="hist-num">4,920</span></div>
-        <div class="hist-row"><span class="hist-sq" style="background: var(--seg-headless)"></span><span class="hist-name">Headless API</span><span class="hist-pct">25%</span><span class="hist-num">810</span></div>
-        <div class="hist-row"><span class="hist-sq" style="background: var(--seg-automations)"></span><span class="hist-name">Automations</span><span class="hist-pct">25%</span><span class="hist-num">810</span></div>
-
-        <div class="hist-day">Yesterday</div>
-        <div class="hist-row"><span class="hist-sq" style="background: var(--seg-automations)"></span><span class="hist-name">Automations</span><span class="hist-pct">25%</span><span class="hist-num">810</span></div>
-        <div class="hist-row"><span class="hist-sq" style="background: var(--seg-mcp)"></span><span class="hist-name">MCP</span><span class="hist-pct">25%</span><span class="hist-num">810</span></div>
-
-        <div class="hist-day">Jul 22</div>
-        <div class="hist-row"><span class="hist-sq" style="background: var(--seg-adminapi)"></span><span class="hist-name">Admin API</span><span class="hist-pct">25%</span><span class="hist-num">810</span></div>
-        <div class="hist-row"><span class="hist-sq" style="background: var(--seg-mcp)"></span><span class="hist-name">MCP</span><span class="hist-pct">25%</span><span class="hist-num">810</span></div>
-      </div>
-
-      <div class="hist-footer">
-        <span class="hist-count">Showing 6 of 84 events</span>
-        <button class="hist-export">Export CSV</button>
-      </div>
-    </div>
-  </div>
 
   <script>
   (function () {
@@ -960,6 +933,7 @@ a { color: inherit; }
       credits: document.getElementById('view-credits'),
       purchase: document.getElementById('view-purchase'),
       processing: document.getElementById('view-processing'),
+      history: document.getElementById('view-history'),
     };
     function showView(name) {
       Object.values(views).forEach((v) => v.classList.remove('active'));
@@ -1007,94 +981,7 @@ a { color: inherit; }
       document.getElementById('donutSvg').innerHTML = `<svg viewBox="0 0 220 220">${arcs}</svg>`;
     }
 
-    // --- Daily Breakdown: current vs previous period, by category & granularity ---
-    const CAT_PEAK = { all: 720, cohost: 460, headless: 300, automations: 300, mcp: 210, adminapi: 180 };
-    const CAT_SEED = { all: 1.7, cohost: 2.3, headless: 3.1, automations: 4.5, mcp: 5.9, adminapi: 6.7 };
-    const CAT_COLOR = { all: '#171717', cohost: 'var(--seg-cohost)', headless: 'var(--seg-headless)', automations: 'var(--seg-automations)', mcp: 'var(--seg-mcp)', adminapi: 'var(--seg-adminapi)' };
-    let currentCat = 'all';
-    let currentGran = 'month';
-
-    function pseudo(i, salt) { const x = Math.sin((i + 1) * 12.9898 * salt) * 43758.5453; return x - Math.floor(x); }
-    function fmtHour(h) { const period = h < 12 ? 'am' : 'pm'; let hr = h % 12; if (hr === 0) hr = 12; return hr + period; }
-
-    function genSeries(cat, gran) {
-      const peak = CAT_PEAK[cat] || 700;
-      const seed = CAT_SEED[cat] || 1.7;
-      let labels;
-      if (gran === 'month') labels = Array.from({ length: 30 }, (_, i) => String(i + 1));
-      else if (gran === 'week') labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-      else labels = Array.from({ length: 24 }, (_, i) => fmtHour(i));
-      return labels.map((label, i) => ({
-        label,
-        current: Math.round(peak * (0.15 + 0.85 * pseudo(i, seed))),
-        previous: Math.round(peak * (0.15 + 0.85 * pseudo(i, seed + 0.37))),
-      }));
-    }
-
-    function renderChart() {
-      const data = genSeries(currentCat, currentGran);
-      const n = data.length;
-      const W = 900, H = 320, padL = 40, padR = 8, padT = 12, padB = 26;
-      const plotW = W - padL - padR, plotH = H - padT - padB;
-      const rawMax = Math.max(...data.flatMap((d) => [d.current, d.previous]), 1);
-      const maxY = Math.ceil(rawMax / 200) * 200;
-      const bw = Math.max((plotW / n) * 0.5, 3);
-      const yTicks = []; for (let t = 0; t <= maxY; t += 200) yTicks.push(t);
-      const y = (v) => padT + plotH - (Math.min(v, maxY) / maxY) * plotH;
-
-      let grid = yTicks.map((t) => `<line x1="${padL}" y1="${y(t)}" x2="${W - padR}" y2="${y(t)}" stroke="#eee"/><text x="${padL - 8}" y="${y(t) + 4}" text-anchor="end" font-size="11" fill="#9a9a9a">${t}</text>`).join('');
-
-      const labelStep = gran_labelStep(currentGran, n);
-      const curColor = CAT_COLOR[currentCat] || '#171717';
-      let bars = '', xl = '', hits = '';
-      data.forEach((d, i) => {
-        const cxb = padL + plotW * (i + 0.5) / n;
-        const x = cxb - bw / 2;
-        bars += `<rect x="${x}" y="${y(d.previous)}" width="${bw}" height="${padT + plotH - y(d.previous)}" rx="2" fill="#d4d4d4"/>`;
-        bars += `<rect x="${x}" y="${y(d.current)}" width="${bw}" height="${padT + plotH - y(d.current)}" rx="2" fill="${curColor}"/>`;
-        hits += `<rect class="chart-hit" x="${padL + plotW * i / n}" y="${padT}" width="${plotW / n}" height="${plotH}" fill="transparent" data-label="${d.label}" data-cur="${d.current}" data-prev="${d.previous}"/>`;
-        if (i % labelStep === 0) xl += `<text x="${cxb}" y="${H - 8}" text-anchor="middle" font-size="11" fill="#9a9a9a">${d.label}</text>`;
-      });
-      document.getElementById('chartArea').innerHTML = `<svg viewBox="0 0 ${W} ${H}">${grid}${bars}${xl}${hits}</svg>`;
-      document.getElementById('lgCur').style.background = curColor;
-
-      document.querySelectorAll('#chartArea .chart-hit').forEach((h) => {
-        h.addEventListener('mouseenter', () => {
-          tooltip.innerHTML = `<div class="tt-h">${h.dataset.label}</div><div class="tt-r"><span class="tt-sw" style="background:${curColor}"></span>Current: ${formatCredits(+h.dataset.cur)}</div><div class="tt-r"><span class="tt-sw" style="background:#d4d4d4"></span>Previous: ${formatCredits(+h.dataset.prev)}</div>`;
-          tooltip.classList.add('visible');
-        });
-        h.addEventListener('mousemove', (e) => { tooltip.style.left = e.clientX + 'px'; tooltip.style.top = (e.clientY - 12) + 'px'; });
-        h.addEventListener('mouseleave', () => tooltip.classList.remove('visible'));
-      });
-    }
-    function gran_labelStep(gran, n) { if (gran === 'week') return 1; if (gran === 'day') return 3; return 1; }
-
-    // Category dropdown + granularity toggle
-    (function wireCatDropdown() {
-      const dropdown = document.getElementById('catDropdown');
-      const btn = document.getElementById('catBtn');
-      btn.addEventListener('click', (e) => { e.stopPropagation(); const open = dropdown.classList.toggle('open'); btn.setAttribute('aria-expanded', open ? 'true' : 'false'); });
-      dropdown.querySelectorAll('.dropdown-item').forEach((item) => item.addEventListener('click', () => {
-        dropdown.querySelectorAll('.dropdown-item').forEach((i) => i.classList.remove('selected'));
-        item.classList.add('selected');
-        document.getElementById('catLabel').textContent = item.textContent;
-        currentCat = item.dataset.cat;
-        renderChart();
-        dropdown.classList.remove('open');
-        btn.setAttribute('aria-expanded', 'false');
-      }));
-      document.addEventListener('click', (e) => { if (!dropdown.contains(e.target)) { dropdown.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); } });
-    })();
-
-    document.querySelectorAll('.gran-btn').forEach((b) => b.addEventListener('click', () => {
-      document.querySelectorAll('.gran-btn').forEach((x) => x.classList.remove('active'));
-      b.classList.add('active');
-      currentGran = b.dataset.gran;
-      renderChart();
-    }));
-
     renderDonut();
-    renderChart();
 
     // --- Dashboard state model ---
     const el = (id) => document.getElementById(id);
@@ -1414,16 +1301,77 @@ a { color: inherit; }
 
     renderAutoReload();
 
-    // --- Credit usage history modal ---
-    const historyModal = document.getElementById('historyModal');
-    function closeHistoryModal() { historyModal.classList.remove('open'); }
-    document.querySelectorAll('.js-usage-history').forEach((b) => b.addEventListener('click', () => historyModal.classList.add('open')));
-    document.getElementById('histClose').addEventListener('click', closeHistoryModal);
-    historyModal.addEventListener('click', (e) => { if (e.target === historyModal) closeHistoryModal(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeHistoryModal(); });
+    // --- Credit usage history page (with date search) ---
+    const TODAY = '2026-07-28';
+    const YESTERDAY = '2026-07-27';
+    const TOTAL_EVENTS = 84;
+    const FEATURE_LABEL = { cohost: 'Cohost', headless: 'Headless API', automations: 'Automations', mcp: 'MCP', adminapi: 'Admin API' };
+    // Mock usage events across the last ~2 months (date descending)
+    const HISTORY = [
+      { date: '2026-07-28', feature: 'cohost', credits: 4920 },
+      { date: '2026-07-28', feature: 'headless', credits: 810 },
+      { date: '2026-07-28', feature: 'automations', credits: 810 },
+      { date: '2026-07-27', feature: 'automations', credits: 640 },
+      { date: '2026-07-27', feature: 'mcp', credits: 320 },
+      { date: '2026-07-22', feature: 'adminapi', credits: 810 },
+      { date: '2026-07-22', feature: 'mcp', credits: 460 },
+      { date: '2026-07-18', feature: 'cohost', credits: 1200 },
+      { date: '2026-07-18', feature: 'headless', credits: 300 },
+      { date: '2026-07-12', feature: 'mcp', credits: 450 },
+      { date: '2026-07-12', feature: 'automations', credits: 220 },
+      { date: '2026-07-05', feature: 'cohost', credits: 900 },
+      { date: '2026-07-05', feature: 'adminapi', credits: 160 },
+      { date: '2026-06-30', feature: 'headless', credits: 400 },
+      { date: '2026-06-30', feature: 'automations', credits: 300 },
+    ];
+    const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    function dayLabel(d) {
+      if (d === TODAY) return 'Today';
+      if (d === YESTERDAY) return 'Yesterday';
+      const [, m, day] = d.split('-').map(Number);
+      return `${MONTHS[m - 1]} ${day}`;
+    }
+
+    const histList = document.getElementById('histList');
+    const histFrom = document.getElementById('histFrom');
+    const histTo = document.getElementById('histTo');
+    const histCount = document.getElementById('histCount');
+
+    function renderHistory() {
+      const from = histFrom.value, to = histTo.value;
+      const rows = HISTORY.filter((e) => (!from || e.date >= from) && (!to || e.date <= to));
+      // group by date (already sorted desc)
+      const byDate = {};
+      const order = [];
+      rows.forEach((e) => { if (!byDate[e.date]) { byDate[e.date] = []; order.push(e.date); } byDate[e.date].push(e); });
+
+      let html = '';
+      if (rows.length === 0) {
+        html = '<div class="hist-empty">No usage found for the selected dates.</div>';
+      } else {
+        order.forEach((date) => {
+          const items = byDate[date];
+          const dayTotal = items.reduce((s, e) => s + e.credits, 0);
+          html += `<div class="hist-day"><span>${dayLabel(date)}</span><span class="hist-day-total">${formatCredits(dayTotal)} credits used</span></div>`;
+          items.forEach((e) => {
+            const pct = dayTotal > 0 ? Math.round((e.credits / dayTotal) * 100) : 0;
+            html += `<div class="hist-row"><span class="hist-sq" style="background:var(${FEATURE_VAR[e.feature]})"></span><span class="hist-name">${FEATURE_LABEL[e.feature]}</span><span class="hist-pct">${pct}%</span><span class="hist-num">${formatCredits(e.credits)}</span></div>`;
+          });
+        });
+      }
+      histList.innerHTML = html;
+      histCount.textContent = `Showing ${rows.length} of ${TOTAL_EVENTS} events`;
+    }
+
+    document.querySelectorAll('.js-usage-history').forEach((b) => b.addEventListener('click', () => { renderHistory(); showView('history'); }));
+    document.getElementById('historyBack').addEventListener('click', () => showView('credits'));
+    histFrom.addEventListener('change', renderHistory);
+    histTo.addEventListener('change', renderHistory);
+    document.getElementById('histClear').addEventListener('click', () => { histFrom.value = ''; histTo.value = ''; renderHistory(); });
 
     updateSummary();
     render();
+    renderHistory();
   })();
   </script>
 </body>
