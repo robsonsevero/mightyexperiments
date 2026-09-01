@@ -446,9 +446,9 @@ a { color: inherit; }
 .prog-fill { height: 100%; width: 0; border-radius: 999px; background: var(--prog-green); transition: width .9s cubic-bezier(.22,.61,.36,1), background-color .3s ease; }
 .prog-fill.shine::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.65) 50%, transparent 100%); transform: translateX(-100%); animation: fill-shine 0.9s ease; pointer-events: none; }
 
-.add-more-btn { border: none; background: #171717; color: #fff; font-size: 13px; font-weight: 700; padding: 7px 12px; border-radius: 8px; cursor: pointer; white-space: nowrap; }
-.add-more-btn:hover { filter: brightness(1.4); }
-.auto-reload-inline { margin-top: 8px; display: inline-flex; align-items: center; gap: 8px; border: none; background: transparent; padding: 0; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--color-text-primary); text-decoration: underline; align-self: flex-start; }
+.add-more-btn { border: none; background: var(--button-theme); color: #fff; font-size: 13px; font-weight: 700; padding: 7px 12px; border-radius: 8px; cursor: pointer; white-space: nowrap; }
+.add-more-btn:hover { filter: brightness(1.1); }
+.auto-reload-inline { margin-top: 8px; display: inline-flex; align-items: center; gap: 8px; border: none; background: transparent; padding: 0; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--button-theme); text-decoration: underline; align-self: flex-start; }
 
 .alert-banner { width: 100%; max-width: 748px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border: 1px solid var(--color-border); border-radius: 16px; padding: 18px 24px; }
 .alert-banner[hidden] { display: none; }
@@ -461,13 +461,13 @@ a { color: inherit; }
 .usage-bar.zero .seg { background: var(--credit-empty) !important; }
 
 /* Demo-only state switcher in the sidebar */
-.demo-panel { margin-top: 32px; border: 1px dashed #d9b64a; background: #fffdf4; border-radius: 12px; padding: 12px; }
-.demo-panel-head { display: flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #927400; margin-bottom: 10px; }
-.demo-panel-head .demo-dot { width: 7px; height: 7px; border-radius: 50%; background: #e0b62c; }
+.demo-panel { margin-top: 32px; border: none; background: #fafafa; border-radius: 12px; padding: 12px; }
+.demo-panel-head { display: flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #737373; margin-bottom: 10px; }
+.demo-panel-head .demo-dot { width: 7px; height: 7px; border-radius: 50%; background: #a3a3a3; }
 .demo-items { display: flex; flex-direction: column; gap: 2px; }
 .demo-item { text-align: left; border: none; background: transparent; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--color-text-secondary); padding: 8px 10px; border-radius: 8px; line-height: 1.3; }
-.demo-item:hover { background: rgba(146, 116, 0, 0.08); }
-.demo-item.active { background: #fff; color: var(--color-text-primary); box-shadow: inset 0 0 0 1px #e6cf6a; }
+.demo-item:hover { background: rgba(0, 0, 0, 0.05); }
+.demo-item.active { background: #fff; color: var(--color-text-primary); box-shadow: inset 0 0 0 1px #d4d4d4; }
 
 @media (max-width: 860px) { .stat-cards { flex-direction: column; } }
 
@@ -492,22 +492,24 @@ a { color: inherit; }
 .actions-row-v6 { width: 100%; max-width: 748px; display: flex; gap: 8px; }
 .btn-pill { border: none; background: var(--color-fill-secondary); color: var(--color-text-primary); font-size: 13px; font-weight: 700; padding: 10px 16px; border-radius: 8px; cursor: pointer; }
 .btn-pill:hover { filter: brightness(0.96); }
-.btn-pill--dark { background: #171717; color: #fff; }
-.btn-pill--dark:hover { filter: brightness(1.4); }
+.btn-pill--dark { background: var(--button-theme); color: #fff; }
+.btn-pill--dark:hover { filter: brightness(1.1); }
 
 .top-cards { width: 100%; max-width: 748px; display: flex; gap: 16px; }
 
 .donut-card { width: 100%; max-width: 748px; display: flex; gap: 32px; align-items: stretch; }
-.donut-left { flex: 0 0 300px; display: flex; flex-direction: column; }
-.donut-wrap { position: relative; width: 240px; height: 240px; margin: 20px auto auto; }
+.donut-left { flex: 0 0 300px; display: grid; grid-template-rows: auto 1fr auto; justify-items: start; }
+.donut-wrap { position: relative; width: 240px; height: 240px; justify-self: center; align-self: center; }
 .donut-svg, .donut-svg svg { width: 100%; height: 100%; display: block; }
 .donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
 .donut-num { font-size: 24px; font-weight: 500; letter-spacing: -0.02em; }
 .donut-cap { font-size: 15px; font-weight: 400; color: var(--color-text-tertiary); }
-.donut-left .stat-link { margin-top: auto; }
+.donut-left .stat-link { align-self: end; }
 .donut-legend { flex: 1; align-self: center; }
-.dl-row { display: flex; align-items: center; gap: 12px; padding: 16px 4px; border-bottom: 1px solid var(--color-border); }
-.dl-row:last-child { border-bottom: none; }
+.dl-item { padding: 16px 4px; border-bottom: 1px solid var(--color-border); }
+.dl-item:last-child { border-bottom: none; }
+.dl-row { display: flex; align-items: center; gap: 12px; }
+.dl-desc { margin: 6px 0 0; font-size: 14px; line-height: 1.4; color: var(--color-text-secondary); }
 .dl-row .dot { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
 .dl-name { font-size: 14px; font-weight: 400; }
 .dl-num { margin-left: auto; font-size: 14px; font-weight: 400; }
@@ -671,11 +673,11 @@ a { color: inherit; }
                 <a class="stat-link js-tab-history">Usage history</a>
               </div>
               <div class="donut-legend">
-                <div class="dl-row"><span class="dot" style="background:var(--seg-cohost)"></span><span class="dl-name">Cohost</span><span class="dl-num">4,920</span><span class="dl-pct">60%</span></div>
-                <div class="dl-row"><span class="dot" style="background:var(--seg-headless)"></span><span class="dl-name">Headless API</span><span class="dl-num">810</span><span class="dl-pct">10%</span></div>
-                <div class="dl-row"><span class="dot" style="background:var(--seg-automations)"></span><span class="dl-name">Automations</span><span class="dl-num">810</span><span class="dl-pct">10%</span></div>
-                <div class="dl-row"><span class="dot" style="background:var(--seg-mcp)"></span><span class="dl-name">MCP</span><span class="dl-num">810</span><span class="dl-pct">10%</span></div>
-                <div class="dl-row"><span class="dot" style="background:var(--seg-adminapi)"></span><span class="dl-name">Admin API</span><span class="dl-num">810</span><span class="dl-pct">10%</span></div>
+                <div class="dl-item"><div class="dl-row"><span class="dot" style="background:var(--seg-cohost)"></span><span class="dl-name">Cohost</span><span class="dl-num">4,920</span><span class="dl-pct">60%</span></div><p class="dl-desc">Answered 78 questions and performed 23 actions</p></div>
+                <div class="dl-item"><div class="dl-row"><span class="dot" style="background:var(--seg-headless)"></span><span class="dl-name">Headless API</span><span class="dl-num">810</span><span class="dl-pct">10%</span></div><p class="dl-desc">Headless API served 1,860 requests to your custom front end</p></div>
+                <div class="dl-item"><div class="dl-row"><span class="dot" style="background:var(--seg-automations)"></span><span class="dl-name">Automations</span><span class="dl-num">810</span><span class="dl-pct">10%</span></div><p class="dl-desc">1,045 automations ran without you lifting a finger</p></div>
+                <div class="dl-item"><div class="dl-row"><span class="dot" style="background:var(--seg-mcp)"></span><span class="dl-name">MCP</span><span class="dl-num">810</span><span class="dl-pct">10%</span></div><p class="dl-desc">MCP connected your community to 2 AI tools</p></div>
+                <div class="dl-item"><div class="dl-row"><span class="dot" style="background:var(--seg-adminapi)"></span><span class="dl-name">Admin API</span><span class="dl-num">810</span><span class="dl-pct">10%</span></div><p class="dl-desc">Kept 1,220 member records in sync</p></div>
               </div>
             </div>
 
