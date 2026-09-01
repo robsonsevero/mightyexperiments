@@ -109,11 +109,9 @@ a { color: inherit; }
 .content-header h1 { max-width: 748px; width: 100%; margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -0.01em; }
 
 #view-purchase .content-header,
-#view-processing .content-header,
-#view-history .content-header { justify-content: flex-start; padding-left: 48px; }
+#view-processing .content-header { justify-content: flex-start; padding-left: 48px; }
 #view-purchase .content-header h1,
-#view-processing .content-header h1,
-#view-history .content-header h1 { max-width: none; width: auto; }
+#view-processing .content-header h1 { max-width: none; width: auto; }
 .purchase-header {flex-direction: column;align-items: flex-start;gap: 16px;padding-top: 24px !important;/* background: var(--color-surface-secondary); *//* border-bottom: 1px solid var(--color-border); */}
 #view-processing .content-header { background: var(--color-surface-secondary); border-bottom: 1px solid var(--color-border); }
 .back-btn { width: 32px; height: 32px; border-radius: var(--radius-medium); border: none; background: transparent; display: flex; align-items: center; justify-content: center; color: var(--color-text-primary); cursor: pointer; margin-left: -6px; }
@@ -400,7 +398,6 @@ a { color: inherit; }
 .hist-day:first-child { margin-top: 4px; }
 .hist-row { display: flex; align-items: center; gap: 12px; padding: 16px 2px; border-bottom: 1px solid var(--color-border); }
 .hist-day + .hist-row { border-top: 1px solid var(--color-border); }
-.hist-sq { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
 .hist-name {font-size: 16px;font-weight: 400;color: var(--color-text-primary);}
 .hist-pct {font-size: 14px;color: var(--color-text-tertiary);}
 .hist-num {margin-left: auto;font-size: 16px;font-weight: 400;color: var(--color-text-primary);white-space: nowrap;}
@@ -414,10 +411,10 @@ a { color: inherit; }
 .hist-export:hover { text-decoration: underline; }
 
 /* Usage history page */
-#view-history .content-header { align-items: center; padding-left: 24px; padding-right: 24px; }
 .hist-header-inner { width: 100%; max-width: 748px; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
-.history-body { display: flex; flex-direction: column; align-items: center; padding: 24px 24px 80px; }
+.history-body { display: flex; flex-direction: column; align-items: center; padding: 0 24px 80px; }
 .history-body > * { width: 100%; max-width: 748px; }
+.history-body .actions-row-v6 { margin-bottom: 24px; }
 .history-sub { font-size: 15px; color: var(--color-text-tertiary); margin: 0 0 20px; }
 .history-controls {display: flex;align-items: flex-end;gap: 12px;margin-bottom: 40px;}
 .hc-field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: var(--color-text-secondary); }
@@ -622,8 +619,8 @@ a { color: inherit; }
           <div class="content-body content-body--credits">
 
             <div class="actions-row-v6">
-              <button class="btn-pill js-usage-history">Usage history</button>
-              <button class="btn-pill btn-pill--dark js-add-credits">Buy Extra Credits</button>
+              <button class="btn-pill btn-pill--dark js-tab-current" data-tab="credits">Current usage</button>
+              <button class="btn-pill js-tab-history" data-tab="history">Usage history</button>
             </div>
 
             <div class="top-cards">
@@ -671,7 +668,7 @@ a { color: inherit; }
                   <div class="donut-svg" id="donutSvg"></div>
                   <div class="donut-center"><div class="donut-num" id="donutUsed">5,000</div><div class="donut-cap">Used</div></div>
                 </div>
-                <a class="stat-link js-usage-history">Usage history</a>
+                <a class="stat-link js-tab-history">Usage history</a>
               </div>
               <div class="donut-legend">
                 <div class="dl-row"><span class="dot" style="background:var(--seg-cohost)"></span><span class="dl-name">Cohost</span><span class="dl-num">4,920</span><span class="dl-pct">60%</span></div>
@@ -799,15 +796,12 @@ a { color: inherit; }
 
         <!-- VIEW 4: Usage history -->
         <section class="view" id="view-history">
-          <div class="content-header purchase-header">
-            <div class="hist-header-inner">
-              <button class="back-btn" id="historyBack" aria-label="Back">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12 4L6 10L12 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <h1>Credit usage history</h1>
-            </div>
-          </div>
+          <div class="content-header"><h1>Usage history</h1></div>
           <div class="history-body">
+            <div class="actions-row-v6">
+              <button class="btn-pill js-tab-current" data-tab="credits">Current usage</button>
+              <button class="btn-pill btn-pill--dark js-tab-history" data-tab="history">Usage history</button>
+            </div>
             <p class="history-sub">Search your credit usage by feature over time. Filter to a specific day or a date range.</p>
             <div class="history-controls">
               <label class="hc-field"><span>From</span><input type="date" id="histFrom" min="2026-06-01" max="2026-07-28"></label>
@@ -1355,7 +1349,7 @@ a { color: inherit; }
           html += `<div class="hist-day"><span>${dayLabel(date)}</span><span class="hist-day-total">${formatCredits(dayTotal)} credits used</span></div>`;
           items.forEach((e) => {
             const pct = dayTotal > 0 ? Math.round((e.credits / dayTotal) * 100) : 0;
-            html += `<div class="hist-row"><span class="hist-sq" style="background:var(${FEATURE_VAR[e.feature]})"></span><span class="hist-name">${FEATURE_LABEL[e.feature]}</span><span class="hist-pct">${pct}%</span><span class="hist-num">${formatCredits(e.credits)}</span></div>`;
+            html += `<div class="hist-row"><span class="hist-name">${FEATURE_LABEL[e.feature]}</span><span class="hist-pct">${pct}%</span><span class="hist-num">${formatCredits(e.credits)}</span></div>`;
           });
         });
       }
@@ -1363,8 +1357,12 @@ a { color: inherit; }
       histCount.textContent = `Showing ${rows.length} of ${TOTAL_EVENTS} events`;
     }
 
-    document.querySelectorAll('.js-usage-history').forEach((b) => b.addEventListener('click', () => { renderHistory(); showView('history'); }));
-    document.getElementById('historyBack').addEventListener('click', () => showView('credits'));
+    function syncTabs(view) {
+      document.querySelectorAll('.btn-pill.js-tab-current').forEach((b) => b.classList.toggle('btn-pill--dark', view === 'credits'));
+      document.querySelectorAll('.btn-pill.js-tab-history').forEach((b) => b.classList.toggle('btn-pill--dark', view === 'history'));
+    }
+    document.querySelectorAll('.js-tab-history').forEach((b) => b.addEventListener('click', () => { renderHistory(); showView('history'); syncTabs('history'); }));
+    document.querySelectorAll('.js-tab-current').forEach((b) => b.addEventListener('click', () => { showView('credits'); syncTabs('credits'); }));
     histFrom.addEventListener('change', renderHistory);
     histTo.addEventListener('change', renderHistory);
     document.getElementById('histClear').addEventListener('click', () => { histFrom.value = ''; histTo.value = ''; renderHistory(); });
