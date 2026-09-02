@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mighty Billing — Credits (V6)</title>
+<title>Mighty Billing — Credits (V11)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -395,14 +395,30 @@ a { color: inherit; }
 .hist-seg { height: 100%; }
 
 .hist-list { flex: 1; overflow-y: auto; padding: 0 32px; }
-.hist-day {display: flex;align-items: baseline;justify-content: space-between;gap: 12px;font-size: 14px;font-weight: 400;color: var(--color-text-secondary);margin: 40px 0 0;padding-bottom: 16px;}
+.hist-group { border: 1px solid var(--color-border); border-radius: 12px; overflow: hidden; margin-bottom: 24px; }
+.hist-group:last-child { margin-bottom: 0; }
+.hist-day {display: flex;align-items: baseline;justify-content: space-between;gap: 12px;font-size: 14px;font-weight: 400;color: var(--color-text-secondary);margin: 0;padding: 16px;border-bottom: 1px solid var(--color-border);}
 .hist-day-total {font-size: 14px;font-weight: 400;color: var(--color-text-tertiary);}
-.hist-day:first-child { margin-top: 4px; }
-.hist-row { display: flex; align-items: center; gap: 12px; padding: 16px 2px; border-bottom: 1px solid var(--color-border); }
-.hist-day + .hist-row { border-top: 1px solid var(--color-border); }
-.hist-name {font-size: 16px;font-weight: 400;color: var(--color-text-primary);}
+.hist-row { display: flex; align-items: center; gap: 12px; padding: 16px; border-bottom: 1px solid var(--color-border); }
+.hist-group .hist-row:last-child { border-bottom: none; }
+.hist-sq { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
+
+/* Filtered-period breakdown above the event list */
+.hist-summary { border: 1px solid var(--color-border); border-radius: 12px; padding: 16px; margin-bottom: 32px; }
+.hsum-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.hsum-title { font-size: 16px; font-weight: 600; }
+.hsum-total { font-size: 14px; color: var(--color-text-tertiary); }
+.hsum-bar { display: flex; height: 14px; margin-bottom: 16px; border-radius: 999px; overflow: hidden; }
+.hsum-seg { height: 100%; cursor: default; transition: opacity .15s ease; }
+.hsum-bar:hover .hsum-seg:not(:hover) { opacity: 0.45; }
+.hsum-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.hsum-item { display: flex; align-items: center; gap: 6px; font-size: 13px; white-space: nowrap; }
+.hsum-item .hist-sq { width: 10px; height: 10px; border-radius: 3px; }
+.hsum-name { font-weight: 500; }
+.hsum-val { color: var(--color-text-tertiary); }
+.hist-name {font-size: 14px;font-weight: 400;color: var(--color-text-primary);}
 .hist-pct {font-size: 14px;color: var(--color-text-tertiary);}
-.hist-num {margin-left: auto;font-size: 16px;font-weight: 400;color: var(--color-text-primary);white-space: nowrap;}
+.hist-num {margin-left: auto;font-size: 14px;font-weight: 400;color: var(--color-text-primary);white-space: nowrap;}
 
 .hist-footer {
   display: flex; align-items: center; justify-content: space-between;
@@ -452,12 +468,13 @@ a { color: inherit; }
 .add-more-btn:hover { filter: brightness(1.1); }
 .auto-reload-inline { margin-top: 8px; display: inline-flex; align-items: center; gap: 8px; border: none; background: transparent; padding: 0; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--button-theme); text-decoration: underline; align-self: flex-start; }
 
-.alert-banner { width: 100%; max-width: 748px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border: 1px solid var(--color-border); border-radius: 16px; padding: 18px 24px; }
+.alert-banner { width: 100%; max-width: 748px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border: 1px solid #f2b8b5; background: #fdeceb; border-radius: 12px; padding: 12px 12px 12px 20px; }
 .alert-banner[hidden] { display: none; }
-.alert-title { font-size: 16px; font-weight: 700; }
-.alert-text { font-size: 14px; color: var(--color-text-tertiary); margin-top: 2px; }
-.alert-btn { border: none; background: #171717; color: #fff; font-size: 14px; font-weight: 700; padding: 12px 18px; border-radius: 8px; cursor: pointer; white-space: nowrap; }
-.alert-btn:hover { filter: brightness(1.4); }
+.alert-body { display: flex; align-items: center; gap: 10px; }
+.alert-body svg { flex-shrink: 0; }
+.alert-text { font-size: 15px; font-weight: 400; color: #b3261e; }
+.alert-btn { border: none; background: #c0322b; color: #fff; font-size: 14px; font-weight: 700; padding: 10px 16px; border-radius: 8px; cursor: pointer; white-space: nowrap; }
+.alert-btn:hover { filter: brightness(1.1); }
 
 /* usage bar empty (new month) */
 .usage-bar.zero .seg { background: var(--credit-empty) !important; }
@@ -513,6 +530,9 @@ a { color: inherit; }
 .dl-row { display: flex; align-items: center; gap: 12px; }
 .dl-desc { margin: 6px 0 0; font-size: 14px; line-height: 1.4; color: var(--color-text-secondary); }
 .dl-row .dot { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
+.dl-row .dot--group { width: auto; height: 14px; display: inline-flex; align-items: center; background: none; border-radius: 0; }
+.dl-row .dot--group i { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; box-shadow: 0 0 0 2px var(--color-surface); }
+.dl-row .dot--group i + i { margin-left: -6px; }
 .dl-name { font-size: 14px; font-weight: 600; }
 .dl-num { margin-left: auto; font-size: 14px; font-weight: 400; }
 .dl-pct { font-size: 14px; color: var(--color-text-tertiary); min-width: 42px; text-align: right; }
@@ -658,8 +678,8 @@ a { color: inherit; }
             <!-- Add credits alert banner -->
             <div class="alert-banner" id="alertBanner" hidden>
               <div class="alert-body">
-                <div class="alert-title">Add credits</div>
-                <div class="alert-text" id="alertText">You've used 100% of this month's credits. Add more to avoid pausing AI features.</div>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 3.5 2.5 16.5h15L10 3.5Z" stroke="#b3261e" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 8.5v3.2" stroke="#b3261e" stroke-width="1.6" stroke-linecap="round"/><circle cx="10" cy="14" r="0.9" fill="#b3261e"/></svg>
+                <div class="alert-text" id="alertText">Buy extra credits to keep your features working</div>
               </div>
               <button class="alert-btn js-add-credits">Add Credits</button>
             </div>
@@ -676,10 +696,8 @@ a { color: inherit; }
               </div>
               <div class="donut-legend">
                 <div class="dl-item"><div class="dl-row"><span class="dot" style="background:var(--seg-cohost)"></span><span class="dl-name">Cohost</span><span class="dl-num">4,920</span><span class="dl-pct">60%</span></div><p class="dl-desc">Answered 78 questions and performed 23 actions</p></div>
-                <div class="dl-item"><div class="dl-row"><span class="dot" style="background:var(--seg-headless)"></span><span class="dl-name">Headless API</span><span class="dl-num">810</span><span class="dl-pct">10%</span></div><p class="dl-desc">Headless API served 1,860 requests to your custom front end</p></div>
+                <div class="dl-item"><div class="dl-row"><span class="dot dot--group"><i style="background:var(--seg-headless)"></i><i style="background:var(--seg-adminapi)"></i><i style="background:var(--seg-mcp)"></i></span><span class="dl-name">Integrations</span><span class="dl-num">2,430</span><span class="dl-pct">30%</span></div><p class="dl-desc">Your 3 integrations stayed in sync</p></div>
                 <div class="dl-item"><div class="dl-row"><span class="dot" style="background:var(--seg-automations)"></span><span class="dl-name">Automations</span><span class="dl-num">810</span><span class="dl-pct">10%</span></div><p class="dl-desc">1,045 automations ran without you lifting a finger</p></div>
-                <div class="dl-item"><div class="dl-row"><span class="dot" style="background:var(--seg-mcp)"></span><span class="dl-name">MCP</span><span class="dl-num">810</span><span class="dl-pct">10%</span></div><p class="dl-desc">MCP connected your community to 2 AI tools</p></div>
-                <div class="dl-item"><div class="dl-row"><span class="dot" style="background:var(--seg-adminapi)"></span><span class="dl-name">Admin API</span><span class="dl-num">810</span><span class="dl-pct">10%</span></div><p class="dl-desc">Kept 1,220 member records in sync</p></div>
               </div>
             </div>
 
@@ -812,6 +830,7 @@ a { color: inherit; }
               <label class="hc-field"><span>To</span><input type="date" id="histTo" min="2026-06-01" max="2026-07-28"></label>
               <button class="hc-clear" id="histClear">Clear</button>
             </div>
+            <div class="hist-summary" id="histSummary"></div>
             <div class="hist-list" id="histList"></div>
             <div class="history-foot">
               <span class="hist-count" id="histCount">Showing 0 of 84 events</span>
@@ -969,7 +988,7 @@ a { color: inherit; }
     // Donut chart for the "Total Monthly Credits" card
     function renderDonut() {
       const total = FEATURES.reduce((s, k) => s + USAGE_DATA[k], 0);
-      const r = 82, C = 2 * Math.PI * r, cx = 110, cy = 110, sw = 30, gap = 3;
+      const r = 82, C = 2 * Math.PI * r, cx = 110, cy = 110, sw = 30, gap = 0;
       let off = 0, arcs = '';
       FEATURES.forEach((k) => {
         const len = (USAGE_DATA[k] / total) * C;
@@ -1373,15 +1392,60 @@ a { color: inherit; }
         order.forEach((date) => {
           const items = byDate[date];
           const dayTotal = items.reduce((s, e) => s + e.credits, 0);
-          html += `<div class="hist-day"><span>${dayLabel(date)}</span><span class="hist-day-total">${formatCredits(dayTotal)} credits used</span></div>`;
+          html += `<div class="hist-group"><div class="hist-day"><span>${dayLabel(date)}</span><span class="hist-day-total">${formatCredits(dayTotal)} credits used</span></div>`;
           items.forEach((e) => {
             const pct = dayTotal > 0 ? Math.round((e.credits / dayTotal) * 100) : 0;
-            html += `<div class="hist-row"><span class="hist-name">${FEATURE_LABEL[e.feature]}</span><span class="hist-pct">${pct}%</span><span class="hist-num">${formatCredits(e.credits)}</span></div>`;
+            html += `<div class="hist-row"><span class="hist-sq" style="background:var(${FEATURE_VAR[e.feature]})"></span><span class="hist-name">${FEATURE_LABEL[e.feature]}</span><span class="hist-pct">${pct}%</span><span class="hist-num">${formatCredits(e.credits)}</span></div>`;
           });
+          html += '</div>';
         });
       }
       histList.innerHTML = html;
+      renderHistSummary(rows);
       histCount.textContent = `Showing ${rows.length} of ${TOTAL_EVENTS} events`;
+    }
+
+    // Share-of-usage bar for whatever range is currently filtered
+    function renderHistSummary(rows) {
+      const summary = document.getElementById('histSummary');
+      const total = rows.reduce((s, e) => s + e.credits, 0);
+      if (!rows.length || total === 0) { summary.innerHTML = ''; summary.style.display = 'none'; return; }
+      summary.style.display = '';
+
+      const byFeature = {};
+      rows.forEach((e) => { byFeature[e.feature] = (byFeature[e.feature] || 0) + e.credits; });
+      const feats = Object.keys(byFeature).sort((a, b) => byFeature[b] - byFeature[a]);
+
+      const label = (!histFrom.value && !histTo.value)
+        ? 'All time'
+        : `${histFrom.value ? dayLabel(histFrom.value) : 'Start'} – ${histTo.value ? dayLabel(histTo.value) : 'Today'}`;
+
+      const segs = feats.map((k) => {
+        const pct = (byFeature[k] / total) * 100;
+        return `<div class="hsum-seg" style="flex:${pct};background:var(${FEATURE_VAR[k]})" data-tt-label="${FEATURE_LABEL[k]}" data-tt-value="${formatCredits(byFeature[k])} credits · ${Math.round(pct)}%" data-tt-color="${FEATURE_VAR[k]}"></div>`;
+      }).join('');
+
+      const legend = feats.map((k) => {
+        const pct = Math.round((byFeature[k] / total) * 100);
+        return `<span class="hsum-item"><span class="hist-sq" style="background:var(${FEATURE_VAR[k]})"></span><span class="hsum-name">${FEATURE_LABEL[k]}</span><span class="hsum-val">${pct}%</span></span>`;
+      }).join('');
+
+      summary.innerHTML = `<div class="hsum-head"><span class="hsum-title">${label}</span>`
+        + `<span class="hsum-total">${formatCredits(total)} credits across ${rows.length} events</span></div>`
+        + `<div class="hsum-bar">${segs}</div><div class="hsum-legend">${legend}</div>`;
+
+      summary.querySelectorAll('.hsum-seg').forEach((seg) => {
+        const show = (e) => {
+          tooltip.innerHTML = `<div class="tt-h">${seg.dataset.ttLabel}</div>`
+            + `<div class="tt-r"><span class="tt-sw" style="background:var(${seg.dataset.ttColor})"></span>${seg.dataset.ttValue}</div>`;
+          tooltip.classList.add('visible');
+          tooltip.style.left = e.clientX + 'px';
+          tooltip.style.top = e.clientY - 12 + 'px';
+        };
+        seg.addEventListener('mouseenter', show);
+        seg.addEventListener('mousemove', show);
+        seg.addEventListener('mouseleave', () => tooltip.classList.remove('visible'));
+      });
     }
 
     function syncTabs(view) {
